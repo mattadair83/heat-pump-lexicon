@@ -366,7 +366,6 @@ function detailView(T) {
   let html = header(T) + langBar(T) + backBtn + `<div class="detail">${back}
     <h1>${esc(title)}</h1><span class="tag ${t.cat}">${esc(catLabel(t.cat, T))}</span>
     <div class="panel"><h3>${esc(T.techDesc)}</h3><p>${esc(desc)}</p></div>`;
-  if (t.ref) html += `<div class="panel"><h3>${esc(T.manualRef)}</h3>${t.ref.split("|").map(x => `<p>${esc(x.trim())}</p>`).join("")}</div>`;
 
   if (L === "en") {
     const rows = OTHER_LANGS.filter(l => t.terms[l]).map(l => `
@@ -377,6 +376,7 @@ function detailView(T) {
       </div>`).join("");
     html += `<div class="panel"><h2>${esc(T.translations)}</h2>${rows}</div>`;
   }
+  if (t.ref) html += `<div class="panel"><h3>${esc(T.manualRef)}</h3>${t.ref.split("|").map(x => `<p>${esc(x.trim())}</p>`).join("")}</div>`;
   return html + `<button class="backbtn bottom js-back">← ${esc(T.back)}</button></div>`;
 }
 

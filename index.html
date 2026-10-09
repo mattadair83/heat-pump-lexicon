@@ -4,109 +4,131 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Heat Pump Technical Lexicon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f5f5f5;
-    --panel: #ebebeb;
+    --navy: #100030;        /* deep purple/navy */
+    --purple: #5542f6;      /* Rosie purple */
+    --pink: #f050f8;        /* Octopus pink */
+    --bg: #f5f2ff;
     --card: #ffffff;
-    --text: #1d1d1f;
-    --muted: #6b6b70;
-    --line: #ececee;
-    --accent: #ee3b5f;
-    --elec-bg: #e3e8fb;  --elec-fg: #2f45c7;
-    --mech-bg: #e0f3e4;  --mech-fg: #1f7a35;
-    --safe-bg: #fde4e4;  --safe-fg: #b3261e;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #151517; --panel: #232326; --card: #1f1f22; --text: #f2f2f4;
-      --muted: #a0a0a8; --line: #2e2e33;
-      --elec-bg: #26305f; --elec-fg: #b9c4ff;
-      --mech-bg: #1e3d27; --mech-fg: #a6e3b4;
-      --safe-bg: #4a2224; --safe-fg: #ffb4ae;
-    }
+    --text: #100030;
+    --muted: #5d5578;
+    --line: #e1dcf5;
+    --elec-bg: #e6e1ff;  --elec-fg: #4a35d8;
+    --mech-bg: #d9f4ee;  --mech-fg: #0a6d5f;
+    --safe-bg: #ffe0f6;  --safe-fg: #a3127f;
+    --warn: #c4163c;
   }
   * { box-sizing: border-box; }
-  html { scroll-padding-top: 12px; }
+  html { color-scheme: light; scroll-padding-top: 12px; }
   body {
     margin: 0; background: var(--bg); color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.4;
+    font-family: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.45; font-size: 17px;
   }
-  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 64px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 20px 64px; }
   button { font: inherit; color: inherit; cursor: pointer; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  :focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
 
-  header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-  header img, header .logo {
-    width: 48px; height: 48px; border-radius: 12px; flex: none; background: #4b3bd6;
-    display: grid; place-items: center; color: #fff; font-size: 24px;
+  /* Header */
+  header {
+    display: flex; align-items: center; gap: 22px; margin-bottom: 20px;
+    background: var(--navy); color: #fff; border-radius: 28px; padding: 22px 30px;
   }
-  h1 { font-size: 30px; letter-spacing: -0.02em; margin: 0; }
+  header img, header .logo { height: 84px; width: auto; flex: none; }
+  header .logo { width: 64px; display: grid; place-items: center; background: var(--purple); border-radius: 18px; font-size: 32px; }
+  h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin: 0; }
 
-  .bar {
-    background: var(--panel); border-radius: 14px; padding: 10px 14px;
-    display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 20px;
-  }
-  .bar .label { color: var(--muted); margin-right: 4px; }
+  /* Language + category pills */
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 18px; }
+  .bar .label { color: var(--muted); font-weight: 500; margin-right: 4px; }
   .pill {
-    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
-    padding: 9px 14px; display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; border: 2px solid var(--line); border-radius: 999px;
+    padding: 9px 18px; display: inline-flex; align-items: center; gap: 8px; font-weight: 500;
+    transition: border-color .15s, background .15s;
   }
-  .pill img { width: 18px; height: 13px; border-radius: 2px; object-fit: cover; }
-  .pill[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
-  .tab { background: transparent; border: 0; border-radius: 10px; padding: 9px 14px; color: var(--muted); }
-  .tab[aria-pressed="true"] { background: var(--card); color: var(--text); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .pill:hover { border-color: var(--purple); }
+  .pill img { width: 20px; height: 14px; border-radius: 3px; object-fit: cover; }
+  .pill[aria-pressed="true"] { background: var(--pink); border-color: var(--pink); color: var(--navy); font-weight: 700; }
+  .tab {
+    background: transparent; border: 2px solid transparent; border-radius: 999px;
+    padding: 9px 20px; color: var(--muted); font-weight: 500;
+  }
+  .tab:hover { color: var(--navy); border-color: var(--line); }
+  .tab[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 600; }
 
-  .search { position: relative; margin-bottom: 20px; }
+  /* Search */
+  .search { position: relative; margin-bottom: 18px; }
   .search input {
-    width: 100%; background: var(--panel); border: 0; border-radius: 12px;
-    padding: 16px 16px 16px 46px; font: inherit; color: var(--text);
+    width: 100%; background: #fff; border: 2px solid var(--line); border-radius: 999px;
+    padding: 16px 22px 16px 54px; font: inherit; color: var(--text);
   }
-  .search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+  .search input:focus { outline: none; border-color: var(--purple); }
+  .search input::placeholder { color: #8a82a6; }
+  .search svg { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: var(--purple); }
 
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
-  .stat .name { color: var(--muted); }
-  .stat .num { font-size: 34px; font-weight: 600; margin-top: 6px; display: flex; align-items: baseline; gap: 12px; }
-  .stat .sub { font-size: 16px; font-weight: 400; color: var(--muted); }
-  .stat .sub.warn { color: var(--safe-fg); }
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .stat { background: var(--card); border: 2px solid var(--line); border-radius: 24px; padding: 20px 22px; }
+  .stat .name { color: var(--muted); font-weight: 500; }
+  .stat .num { font-size: 40px; font-weight: 700; color: var(--purple); margin-top: 4px; display: flex; align-items: baseline; gap: 12px; line-height: 1.1; }
+  .stat .sub { font-size: 16px; font-weight: 500; color: var(--muted); }
+  .stat .sub.warn { color: var(--warn); }
 
+  /* Term cards */
   .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .card {
-    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-    padding: 20px; text-align: left; width: 100%; display: block;
+    background: var(--card); border: 2px solid var(--line); border-radius: 24px;
+    padding: 22px; text-align: left; width: 100%; display: block;
+    transition: border-color .15s, transform .15s;
   }
-  .card:hover { border-color: var(--accent); }
-  .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding-bottom: 14px; border-bottom: 1px dashed var(--line); margin-bottom: 14px; }
-  .card h2 { font-size: 20px; margin: 0; letter-spacing: -0.01em; }
-  .tag { font-size: 14px; border-radius: 999px; padding: 3px 12px; white-space: nowrap; }
+  .card:hover { border-color: var(--purple); transform: translateY(-2px); }
+  .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding-bottom: 14px; border-bottom: 2px dashed var(--line); margin-bottom: 14px; }
+  .card h2 { font-size: 21px; font-weight: 600; margin: 0; letter-spacing: -0.01em; line-height: 1.2; }
+  .tag { font-size: 14px; font-weight: 600; border-radius: 999px; padding: 4px 13px; white-space: nowrap; }
   .tag.electrical { background: var(--elec-bg); color: var(--elec-fg); }
   .tag.mechanical { background: var(--mech-bg); color: var(--mech-fg); }
   .tag.safety { background: var(--safe-bg); color: var(--safe-fg); }
   .tr { display: flex; gap: 10px; align-items: center; color: var(--muted); padding: 5px 0; }
-  .tr img { width: 18px; height: 13px; border-radius: 2px; flex: none; object-fit: cover; }
+  .tr img { width: 20px; height: 14px; border-radius: 3px; flex: none; object-fit: cover; }
   .snippet { color: var(--muted); margin: 0; }
 
+  /* Term page */
+  .backbtn {
+    background: var(--navy); color: #fff; border: 0; border-radius: 999px;
+    padding: 12px 26px; font-weight: 600; margin: 4px 0 18px; display: inline-flex; gap: 8px; align-items: center;
+    transition: background .15s;
+  }
+  .backbtn:hover { background: var(--purple); }
+  .backbtn.bottom { margin: 24px 0 0; }
   .crumbs { color: var(--muted); margin-bottom: 8px; }
-  .crumbs button { background: none; border: 0; padding: 0; color: var(--muted); }
-  .crumbs button:hover { color: var(--text); text-decoration: underline; }
-  .detail h1 { font-size: 34px; margin: 4px 0 16px; }
-  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; margin-top: 24px; }
-  .panel h3 { margin: 0 0 10px; font-size: 14px; color: var(--muted); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
-  .panel p { margin: 0; font-size: 20px; max-width: 75ch; }
-  .panel h2 { margin: 0 0 8px; font-size: 22px; }
-  .lang-row { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .crumbs button { background: none; border: 0; padding: 0; color: var(--purple); font-weight: 500; }
+  .crumbs button:hover { text-decoration: underline; }
+  .detail h1 { font-size: 40px; margin: 4px 0 14px; }
+  .panel { background: var(--card); border: 2px solid var(--line); border-radius: 24px; padding: 26px 28px; margin-top: 22px; }
+  .panel h3 { margin: 0 0 10px; font-size: 15px; color: var(--purple); font-weight: 600; letter-spacing: .02em; }
+  .panel p { margin: 0 0 6px; font-size: 20px; max-width: 75ch; }
+  .panel h2 { margin: 0 0 8px; font-size: 24px; font-weight: 600; }
+  .lang-row { padding: 18px 0; border-bottom: 2px dashed var(--line); }
   .lang-row:last-child { border-bottom: 0; padding-bottom: 0; }
-  .lang-row .ln { display: flex; gap: 8px; align-items: center; color: var(--muted); font-weight: 600; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; }
-  .lang-row .ln img { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; }
-  .lang-row .t { font-size: 20px; margin: 6px 0 4px; }
+  .lang-row .ln { display: flex; gap: 8px; align-items: center; color: var(--purple); font-weight: 600; font-size: 15px; }
+  .lang-row .ln img { width: 22px; height: 15px; border-radius: 3px; object-fit: cover; }
+  .lang-row .t { font-size: 21px; font-weight: 600; margin: 6px 0 4px; }
   .lang-row .d { color: var(--muted); margin: 0; font-size: 17px; }
 
   .empty { text-align: center; color: var(--muted); padding: 48px 0; grid-column: 1 / -1; }
 
   @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } .stats { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 600px) { .grid, .stats { grid-template-columns: 1fr; } h1 { font-size: 24px; } }
+  @media (max-width: 600px) {
+    .grid, .stats { grid-template-columns: 1fr; }
+    header { padding: 16px 18px; gap: 14px; border-radius: 22px; }
+    header img, header .logo { height: 56px; }
+    h1 { font-size: 24px; } .detail h1 { font-size: 30px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
@@ -137,35 +159,35 @@ const flagImg = c => `<img src="https://flagcdn.com/w40/${LANGS[c].flag}.png" al
 
 /* ---------- Every piece of page text, per language ---------- */
 const UI = {
-  en: { manualRef: "Manual Reference", title: "Heat Pump Technical Lexicon", language: "Language", search: "Search terms…",
+  en: { manualRef: "Manual Reference", back: "Back to all terms", title: "Heat Pump Technical Lexicon", language: "Language", search: "Search terms…",
         all: "All Categories", electrical: "Electrical", mechanical: "Mechanical", safety: "Health & Safety",
         totalTerms: "Total Technical Terms", elecTerms: "Electrical Terms", mechTerms: "Mechanical Terms", safeTerms: "Health & Safety Protocols",
         elecSub: "Wiring & controls", mechSub: "Hydronics & piping", safeSub: "Flammable refrigerant (A3)",
         phrases: "Phrases", techDesc: "Technical Description", translations: "Translations",
         none: "No matching terms found. Try a different word.", loading: "Loading terms…",
         error: "Could not load the terms. Please try again later.", notFound: "Term not found." },
-  fr: { manualRef: "Référence du manuel", title: "Lexique technique des pompes à chaleur", language: "Langue", search: "Rechercher des termes…",
+  fr: { manualRef: "Référence du manuel", back: "Retour à tous les termes", title: "Lexique technique des pompes à chaleur", language: "Langue", search: "Rechercher des termes…",
         all: "Toutes les catégories", electrical: "Électrique", mechanical: "Mécanique", safety: "Santé et sécurité",
         totalTerms: "Total des termes techniques", elecTerms: "Termes électriques", mechTerms: "Termes mécaniques", safeTerms: "Protocoles de santé et sécurité",
         elecSub: "Câblage et commandes", mechSub: "Hydraulique et tuyauterie", safeSub: "Fluide frigorigène inflammable (A3)",
         phrases: "Phrases", techDesc: "Description technique", translations: "Traductions",
         none: "Aucun terme trouvé. Essayez un autre mot.", loading: "Chargement des termes…",
         error: "Impossible de charger les termes. Veuillez réessayer plus tard.", notFound: "Terme introuvable." },
-  es: { manualRef: "Referencia del manual", title: "Léxico técnico de bombas de calor", language: "Idioma", search: "Buscar términos…",
+  es: { manualRef: "Referencia del manual", back: "Volver a todos los términos", title: "Léxico técnico de bombas de calor", language: "Idioma", search: "Buscar términos…",
         all: "Todas las categorías", electrical: "Eléctrico", mechanical: "Mecánico", safety: "Salud y seguridad",
         totalTerms: "Total de términos técnicos", elecTerms: "Términos eléctricos", mechTerms: "Términos mecánicos", safeTerms: "Protocolos de salud y seguridad",
         elecSub: "Cableado y controles", mechSub: "Hidráulica y tuberías", safeSub: "Refrigerante inflamable (A3)",
         phrases: "Frases", techDesc: "Descripción técnica", translations: "Traducciones",
         none: "No se encontraron términos. Pruebe con otra palabra.", loading: "Cargando términos…",
         error: "No se pudieron cargar los términos. Inténtelo más tarde.", notFound: "Término no encontrado." },
-  de: { manualRef: "Handbuchverweis", title: "Technisches Wärmepumpen-Lexikon", language: "Sprache", search: "Begriffe suchen…",
+  de: { manualRef: "Handbuchverweis", back: "Zurück zu allen Begriffen", title: "Technisches Wärmepumpen-Lexikon", language: "Sprache", search: "Begriffe suchen…",
         all: "Alle Kategorien", electrical: "Elektrik", mechanical: "Mechanik", safety: "Gesundheit & Sicherheit",
         totalTerms: "Technische Begriffe gesamt", elecTerms: "Elektrik-Begriffe", mechTerms: "Mechanik-Begriffe", safeTerms: "Gesundheits- & Sicherheitsprotokolle",
         elecSub: "Verdrahtung & Steuerung", mechSub: "Hydraulik & Verrohrung", safeSub: "Brennbares Kältemittel (A3)",
         phrases: "Begriffe", techDesc: "Technische Beschreibung", translations: "Übersetzungen",
         none: "Keine passenden Begriffe gefunden. Versuchen Sie ein anderes Wort.", loading: "Begriffe werden geladen…",
         error: "Die Begriffe konnten nicht geladen werden. Bitte später erneut versuchen.", notFound: "Begriff nicht gefunden." },
-  it: { manualRef: "Riferimento al manuale", title: "Lessico tecnico delle pompe di calore", language: "Lingua", search: "Cerca termini…",
+  it: { manualRef: "Riferimento al manuale", back: "Torna a tutti i termini", title: "Lessico tecnico delle pompe di calore", language: "Lingua", search: "Cerca termini…",
         all: "Tutte le categorie", electrical: "Elettrico", mechanical: "Meccanico", safety: "Salute e sicurezza",
         totalTerms: "Termini tecnici totali", elecTerms: "Termini elettrici", mechTerms: "Termini meccanici", safeTerms: "Protocolli di salute e sicurezza",
         elecSub: "Cablaggio e controlli", mechSub: "Idronica e tubazioni", safeSub: "Refrigerante infiammabile (A3)",
@@ -335,12 +357,13 @@ function card(t, T) {
 function detailView(T) {
   const t = state.terms.find(x => x.id === state.id);
   const L = state.lang;
-  const back = `<div class="crumbs"><button id="back">${esc(T.phrases)}</button> &nbsp;›&nbsp; ${t ? esc(t.terms[L] || t.terms.en) : ""}</div>`;
-  if (!t) return header(T) + langBar(T) + back + `<p class="empty">${esc(T.notFound)}</p>`;
+  const backBtn = `<button class="backbtn js-back">← ${esc(T.back)}</button>`;
+  const back = `<div class="crumbs"><button class="js-back">${esc(T.phrases)}</button> &nbsp;›&nbsp; ${t ? esc(t.terms[L] || t.terms.en) : ""}</div>`;
+  if (!t) return header(T) + langBar(T) + backBtn + `<p class="empty">${esc(T.notFound)}</p>`;
 
   const title = t.terms[L] || t.terms.en;
   const desc = t.descs[L] || t.descs.en;
-  let html = header(T) + langBar(T) + `<div class="detail">${back}
+  let html = header(T) + langBar(T) + backBtn + `<div class="detail">${back}
     <h1>${esc(title)}</h1><span class="tag ${t.cat}">${esc(catLabel(t.cat, T))}</span>
     <div class="panel"><h3>${esc(T.techDesc)}</h3><p>${esc(desc)}</p></div>`;
   if (t.ref) html += `<div class="panel"><h3>${esc(T.manualRef)}</h3>${t.ref.split("|").map(x => `<p>${esc(x.trim())}</p>`).join("")}</div>`;
@@ -354,7 +377,7 @@ function detailView(T) {
       </div>`).join("");
     html += `<div class="panel"><h2>${esc(T.translations)}</h2>${rows}</div>`;
   }
-  return html + `</div>`;
+  return html + `<button class="backbtn bottom js-back">← ${esc(T.back)}</button></div>`;
 }
 
 /* ---------- Events ---------- */
@@ -374,8 +397,7 @@ function bindHome() {
 }
 function bindDetail() {
   bindLang();
-  const b = document.getElementById("back");
-  if (b) b.onclick = () => go("/", state.lang);
+  document.querySelectorAll(".js-back").forEach(b => b.onclick = () => go("/", state.lang));
 }
 
 /* ---------- Start ---------- */

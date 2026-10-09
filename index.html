@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heat Pump Technical Lexicon</title>
+<style>
+  :root {
+    --bg: #f5f5f5;
+    --panel: #ebebeb;
+    --card: #ffffff;
+    --text: #1d1d1f;
+    --muted: #6b6b70;
+    --line: #ececee;
+    --accent: #ee3b5f;
+    --elec-bg: #e3e8fb;  --elec-fg: #2f45c7;
+    --mech-bg: #e0f3e4;  --mech-fg: #1f7a35;
+    --safe-bg: #fde4e4;  --safe-fg: #b3261e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #151517; --panel: #232326; --card: #1f1f22; --text: #f2f2f4;
+      --muted: #a0a0a8; --line: #2e2e33;
+      --elec-bg: #26305f; --elec-fg: #b9c4ff;
+      --mech-bg: #1e3d27; --mech-fg: #a6e3b4;
+      --safe-bg: #4a2224; --safe-fg: #ffb4ae;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 12px; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.4;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 64px; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  header img, header .logo {
+    width: 48px; height: 48px; border-radius: 12px; flex: none; background: #4b3bd6;
+    display: grid; place-items: center; color: #fff; font-size: 24px;
+  }
+  h1 { font-size: 30px; letter-spacing: -0.02em; margin: 0; }
+
+  .bar {
+    background: var(--panel); border-radius: 14px; padding: 10px 14px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 20px;
+  }
+  .bar .label { color: var(--muted); margin-right: 4px; }
+  .pill {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 9px 14px; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .pill img { width: 18px; height: 13px; border-radius: 2px; object-fit: cover; }
+  .pill[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .tab { background: transparent; border: 0; border-radius: 10px; padding: 9px 14px; color: var(--muted); }
+  .tab[aria-pressed="true"] { background: var(--card); color: var(--text); font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+
+  .search { position: relative; margin-bottom: 20px; }
+  .search input {
+    width: 100%; background: var(--panel); border: 0; border-radius: 12px;
+    padding: 16px 16px 16px 46px; font: inherit; color: var(--text);
+  }
+  .search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .stat .name { color: var(--muted); }
+  .stat .num { font-size: 34px; font-weight: 600; margin-top: 6px; display: flex; align-items: baseline; gap: 12px; }
+  .stat .sub { font-size: 16px; font-weight: 400; color: var(--muted); }
+  .stat .sub.warn { color: var(--safe-fg); }
+
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px; text-align: left; width: 100%; display: block;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding-bottom: 14px; border-bottom: 1px dashed var(--line); margin-bottom: 14px; }
+  .card h2 { font-size: 20px; margin: 0; letter-spacing: -0.01em; }
+  .tag { font-size: 14px; border-radius: 999px; padding: 3px 12px; white-space: nowrap; }
+  .tag.electrical { background: var(--elec-bg); color: var(--elec-fg); }
+  .tag.mechanical { background: var(--mech-bg); color: var(--mech-fg); }
+  .tag.safety { background: var(--safe-bg); color: var(--safe-fg); }
+  .tr { display: flex; gap: 10px; align-items: center; color: var(--muted); padding: 5px 0; }
+  .tr img { width: 18px; height: 13px; border-radius: 2px; flex: none; object-fit: cover; }
+  .snippet { color: var(--muted); margin: 0; }
+
+  .crumbs { color: var(--muted); margin-bottom: 8px; }
+  .crumbs button { background: none; border: 0; padding: 0; color: var(--muted); }
+  .crumbs button:hover { color: var(--text); text-decoration: underline; }
+  .detail h1 { font-size: 34px; margin: 4px 0 16px; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; margin-top: 24px; }
+  .panel h3 { margin: 0 0 10px; font-size: 14px; color: var(--muted); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .panel p { margin: 0; font-size: 20px; max-width: 75ch; }
+  .panel h2 { margin: 0 0 8px; font-size: 22px; }
+  .lang-row { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .lang-row:last-child { border-bottom: 0; padding-bottom: 0; }
+  .lang-row .ln { display: flex; gap: 8px; align-items: center; color: var(--muted); font-weight: 600; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; }
+  .lang-row .ln img { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; }
+  .lang-row .t { font-size: 20px; margin: 6px 0 4px; }
+  .lang-row .d { color: var(--muted); margin: 0; font-size: 17px; }
+
+  .empty { text-align: center; color: var(--muted); padding: 48px 0; grid-column: 1 / -1; }
+
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } .stats { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .grid, .stats { grid-template-columns: 1fr; } h1 { font-size: 24px; } }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+/* =====================================================================
+   SETTINGS — the only thing you need to edit
+   The website reads its terms from the file data.csv (in the same folder).
+   Replace data.csv with a fresh download of your Google Sheet to update the terms.
+   ===================================================================== */
+const SHEET_CSV_URL = "data.csv";
+
+/* Optional: put a logo.png in the same folder and it will be shown automatically. */
+const LOGO_URL = "logo.png";
+
+/* ---------- Languages ---------- */
+const LANGS = {
+  en: { code: "en", flag: "gb", name: "English",  pill: "All (EN)" },
+  fr: { code: "fr", flag: "fr", name: "Français", pill: "Français" },
+  es: { code: "es", flag: "es", name: "Español",  pill: "Español" },
+  de: { code: "de", flag: "de", name: "Deutsch",  pill: "Deutsch" },
+  it: { code: "it", flag: "it", name: "Italiano", pill: "Italiano" },
+};
+const LANG_ORDER = ["en", "fr", "es", "de", "it"];
+const OTHER_LANGS = ["fr", "es", "de", "it"];
+const flagImg = c => `<img src="https://flagcdn.com/w40/${LANGS[c].flag}.png" alt="" loading="lazy">`;
+
+/* ---------- Every piece of page text, per language ---------- */
+const UI = {
+  en: { manualRef: "Manual Reference", title: "Heat Pump Technical Lexicon", language: "Language", search: "Search terms…",
+        all: "All Categories", electrical: "Electrical", mechanical: "Mechanical", safety: "Health & Safety",
+        totalTerms: "Total Technical Terms", elecTerms: "Electrical Terms", mechTerms: "Mechanical Terms", safeTerms: "Health & Safety Protocols",
+        elecSub: "Wiring & controls", mechSub: "Hydronics & piping", safeSub: "Flammable refrigerant (A3)",
+        phrases: "Phrases", techDesc: "Technical Description", translations: "Translations",
+        none: "No matching terms found. Try a different word.", loading: "Loading terms…",
+        error: "Could not load the terms. Please try again later.", notFound: "Term not found." },
+  fr: { manualRef: "Référence du manuel", title: "Lexique technique des pompes à chaleur", language: "Langue", search: "Rechercher des termes…",
+        all: "Toutes les catégories", electrical: "Électrique", mechanical: "Mécanique", safety: "Santé et sécurité",
+        totalTerms: "Total des termes techniques", elecTerms: "Termes électriques", mechTerms: "Termes mécaniques", safeTerms: "Protocoles de santé et sécurité",
+        elecSub: "Câblage et commandes", mechSub: "Hydraulique et tuyauterie", safeSub: "Fluide frigorigène inflammable (A3)",
+        phrases: "Phrases", techDesc: "Description technique", translations: "Traductions",
+        none: "Aucun terme trouvé. Essayez un autre mot.", loading: "Chargement des termes…",
+        error: "Impossible de charger les termes. Veuillez réessayer plus tard.", notFound: "Terme introuvable." },
+  es: { manualRef: "Referencia del manual", title: "Léxico técnico de bombas de calor", language: "Idioma", search: "Buscar términos…",
+        all: "Todas las categorías", electrical: "Eléctrico", mechanical: "Mecánico", safety: "Salud y seguridad",
+        totalTerms: "Total de términos técnicos", elecTerms: "Términos eléctricos", mechTerms: "Términos mecánicos", safeTerms: "Protocolos de salud y seguridad",
+        elecSub: "Cableado y controles", mechSub: "Hidráulica y tuberías", safeSub: "Refrigerante inflamable (A3)",
+        phrases: "Frases", techDesc: "Descripción técnica", translations: "Traducciones",
+        none: "No se encontraron términos. Pruebe con otra palabra.", loading: "Cargando términos…",
+        error: "No se pudieron cargar los términos. Inténtelo más tarde.", notFound: "Término no encontrado." },
+  de: { manualRef: "Handbuchverweis", title: "Technisches Wärmepumpen-Lexikon", language: "Sprache", search: "Begriffe suchen…",
+        all: "Alle Kategorien", electrical: "Elektrik", mechanical: "Mechanik", safety: "Gesundheit & Sicherheit",
+        totalTerms: "Technische Begriffe gesamt", elecTerms: "Elektrik-Begriffe", mechTerms: "Mechanik-Begriffe", safeTerms: "Gesundheits- & Sicherheitsprotokolle",
+        elecSub: "Verdrahtung & Steuerung", mechSub: "Hydraulik & Verrohrung", safeSub: "Brennbares Kältemittel (A3)",
+        phrases: "Begriffe", techDesc: "Technische Beschreibung", translations: "Übersetzungen",
+        none: "Keine passenden Begriffe gefunden. Versuchen Sie ein anderes Wort.", loading: "Begriffe werden geladen…",
+        error: "Die Begriffe konnten nicht geladen werden. Bitte später erneut versuchen.", notFound: "Begriff nicht gefunden." },
+  it: { manualRef: "Riferimento al manuale", title: "Lessico tecnico delle pompe di calore", language: "Lingua", search: "Cerca termini…",
+        all: "Tutte le categorie", electrical: "Elettrico", mechanical: "Meccanico", safety: "Salute e sicurezza",
+        totalTerms: "Termini tecnici totali", elecTerms: "Termini elettrici", mechTerms: "Termini meccanici", safeTerms: "Protocolli di salute e sicurezza",
+        elecSub: "Cablaggio e controlli", mechSub: "Idronica e tubazioni", safeSub: "Refrigerante infiammabile (A3)",
+        phrases: "Frasi", techDesc: "Descrizione tecnica", translations: "Traduzioni",
+        none: "Nessun termine trovato. Prova un'altra parola.", loading: "Caricamento dei termini…",
+        error: "Impossibile caricare i termini. Riprova più tardi.", notFound: "Termine non trovato." },
+};
+
+/* ---------- Sample data (shown only until SHEET_CSV_URL is set) ---------- */
+const SAMPLE_CSV = `English Phrase,Category,French Translation,Spanish Translation,German Translation,Italian Translation,Technical Description,French Translation,Spanish Translation,German Translation,Italian Translation,Manual Reference
+Distribution Board,Electrical,Tableau de distribution,Cuadro de distribución,Unterverteilung / Sicherungskasten,Quadro di distribuzione,"Main electrical consumer unit required for each system, providing dedicated circuit protection and power allocation for the heat pump and auxiliary controls.","Coffret électrique principal requis pour chaque système, assurant la protection dédiée des circuits et la distribution de l'alimentation pour la pompe à chaleur et les commandes auxiliaires.","Cuadro eléctrico principal requerido para cada sistema, que proporciona protección de circuitos dedicada y distribución de energía para la bomba de calor y los controles auxiliares.","Hauptstromverteiler für jedes System, der eine dedizierte Stromkreisabsicherung und Energieverteilung für Wärmepumpe und Zusatzsteuerungen bietet.","Quadro elettrico principale richiesto per ciascun impianto, che fornisce protezione dedicata dei circuiti e distribuzione dell'alimentazione per la pompa di calore e i comandi ausiliari.",Section 3.1
+Contactor,Electrical,Contacteur,Contactor,Schütz (Leistungsschütz),Contattore,An electrically controlled switch used to connect or disconnect power to a high-load circuit.,Interrupteur à commande électrique utilisé pour établir ou couper l'alimentation d'un circuit à forte charge.,Interruptor de accionamiento eléctrico que conecta o desconecta la alimentación de un circuito de alta carga.,Elektrisch gesteuerter Schalter zum Zu- oder Abschalten der Spannung eines Stromkreises mit hoher Last.,Interruttore a comando elettrico usato per collegare o scollegare l'alimentazione di un circuito ad alto carico.,
+Monobloc Unit,Mechanical,Groupe monobloc,Unidad monobloque,Monoblock-Einheit,Unità monoblocco,"A heat pump where all refrigerant components sit in a single outdoor unit, connected to the home by water pipes only.","Pompe à chaleur dont tous les composants frigorifiques se trouvent dans une seule unité extérieure, reliée au logement uniquement par des conduites d'eau.","Bomba de calor con todos los componentes del refrigerante en una única unidad exterior, conectada a la vivienda solo mediante tuberías de agua.","Wärmepumpe, bei der alle Kältemittelkomponenten in einer einzigen Außeneinheit sitzen und nur über Wasserleitungen mit dem Haus verbunden sind.","Pompa di calore con tutti i componenti del refrigerante in un'unica unità esterna, collegata all'abitazione solo tramite tubazioni dell'acqua.",
+`;
+
+/* ---------- CSV parser (handles quotes, commas and line breaks inside cells) ---------- */
+function parseCSV(text) {
+  const rows = []; let row = [], cell = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; }
+      else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ",") { row.push(cell); cell = ""; }
+    else if (c === "\n" || c === "\r") {
+      if (c === "\r" && text[i + 1] === "\n") i++;
+      row.push(cell); cell = ""; rows.push(row); row = [];
+    } else cell += c;
+  }
+  if (cell !== "" || row.length) { row.push(cell); rows.push(row); }
+  return rows.filter(r => r.some(x => x.trim() !== ""));
+}
+
+const slug = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const fold = s => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function categoryKey(raw) {
+  const v = fold(raw);
+  if (v.includes("elec")) return "electrical";
+  if (v.includes("mech")) return "mechanical";
+  if (v.includes("safe") || v.includes("health")) return "safety";
+  return "other";
+}
+
+function toTerms(csv) {
+  // Reads your sheet by COLUMN POSITION (row 1 is treated as headings and skipped):
+  // A English phrase | B Category | C-F French, Spanish, German, Italian phrase
+  // G English description | H-K French, Spanish, German, Italian description | L Manual reference
+  const rows = parseCSV(csv).slice(1);
+  const seen = {};
+  return rows.map(r => {
+    const c = i => (r[i] || "").trim();
+    const t = {
+      cat: categoryKey(c(1)),
+      terms: { en: c(0), fr: c(2), es: c(3), de: c(4), it: c(5) },
+      descs: { en: c(6), fr: c(7), es: c(8), de: c(9), it: c(10) },
+      ref: c(11),
+    };
+    let id = slug(t.terms.en) || "term";
+    seen[id] = (seen[id] || 0) + 1;
+    t.id = seen[id] > 1 ? id + "-" + seen[id] : id;
+    return t;
+  }).filter(t => t.terms.en);
+}
+
+/* ---------- State ---------- */
+const state = { terms: null, error: false, lang: "en", cat: "all", q: "", view: "home", id: null };
+
+function readHash() {
+  const h = location.hash.replace(/^#/, "");
+  const [path, qs] = h.split("?");
+  const p = new URLSearchParams(qs || "");
+  const l = p.get("lang");
+  state.lang = LANGS[l] ? l : (state.lang || "en");
+  const m = path.match(/^\/term\/(.+)$/);
+  if (m) { state.view = "detail"; state.id = decodeURIComponent(m[1]); }
+  else { state.view = "home"; state.id = null; }
+}
+function go(path, lang) {
+  location.hash = path + (lang && lang !== "en" ? "?lang=" + lang : "");
+}
+window.addEventListener("hashchange", () => { readHash(); render(); window.scrollTo(0, 0); });
+
+/* ---------- Rendering ---------- */
+const catLabel = (cat, T) => ({ electrical: T.electrical, mechanical: T.mechanical, safety: T.safety }[cat] || "");
+
+function render() {
+  const T = UI[state.lang];
+  document.documentElement.lang = state.lang;
+  document.title = T.title;
+  const app = document.getElementById("app");
+
+  if (state.error) { app.innerHTML = shell(T, `<p class="empty">${esc(T.error)}</p>`, false); return; }
+  if (!state.terms) { app.innerHTML = shell(T, `<p class="empty">${esc(T.loading)}</p>`, false); return; }
+
+  if (state.view === "detail") { app.innerHTML = detailView(T); bindDetail(); return; }
+
+  const focus = document.activeElement && document.activeElement.id === "q";
+  app.innerHTML = shell(T, homeBody(T), true);
+  bindHome();
+  if (focus) { const el = document.getElementById("q"); el.focus(); el.setSelectionRange(el.value.length, el.value.length); }
+}
+
+function header(T) {
+  return `<header>
+    <img src="${LOGO_URL}" alt="" onerror="this.outerHTML='<div class=&quot;logo&quot; aria-hidden=&quot;true&quot;>♨</div>'">
+    <h1>${esc(T.title)}</h1></header>`;
+}
+function langBar(T) {
+  return `<div class="bar" role="group" aria-label="${esc(T.language)}">
+    <span class="label">${esc(T.language)}:</span>
+    ${LANG_ORDER.map(l => `<button class="pill" data-lang="${l}" aria-pressed="${state.lang === l}">${l === "en" ? "" : flagImg(l)}${esc(LANGS[l].pill)}</button>`).join("")}
+  </div>`;
+}
+function shell(T, body, full) { return header(T) + langBar(T) + body; }
+
+function matches(t) {
+  if (state.cat !== "all" && t.cat !== state.cat) return false;
+  const q = fold(state.q.trim());
+  if (!q) return true;
+  const hay = LANG_ORDER.map(l => t.terms[l]).join(" | ") + " | " + (t.descs[state.lang] || "");
+  return fold(hay).includes(q);
+}
+
+function homeBody(T) {
+  const all = state.terms;
+  const n = c => all.filter(t => t.cat === c).length;
+  const list = all.filter(matches);
+  const tabs = [["all", T.all], ["electrical", "⚡ " + T.electrical], ["mechanical", "⚙️ " + T.mechanical], ["safety", "🛡️ " + T.safety]];
+
+  return `
+  <div class="search">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="${esc(T.search)}" aria-label="${esc(T.search)}" value="${esc(state.q)}" autocomplete="off">
+  </div>
+  <div class="bar" role="group">
+    ${tabs.map(([k, label]) => `<button class="tab" data-cat="${k}" aria-pressed="${state.cat === k}">${esc(label)}</button>`).join("")}
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="name">${esc(T.totalTerms)}</div><div class="num">${all.length}</div></div>
+    <div class="stat"><div class="name">${esc(T.elecTerms)}</div><div class="num">${n("electrical")}<span class="sub">${esc(T.elecSub)}</span></div></div>
+    <div class="stat"><div class="name">${esc(T.mechTerms)}</div><div class="num">${n("mechanical")}<span class="sub">${esc(T.mechSub)}</span></div></div>
+    <div class="stat"><div class="name">${esc(T.safeTerms)}</div><div class="num">${n("safety")}<span class="sub warn">${esc(T.safeSub)}</span></div></div>
+  </div>
+  <div class="grid">
+    ${list.length ? list.map(t => card(t, T)).join("") : `<p class="empty">${esc(T.none)}</p>`}
+  </div>`;
+}
+
+function card(t, T) {
+  const L = state.lang;
+  const title = t.terms[L] || t.terms.en;
+  let body;
+  if (L === "en") {
+    body = OTHER_LANGS.filter(l => t.terms[l]).map(l => `<div class="tr">${flagImg(l)}<span>${esc(t.terms[l])}</span></div>`).join("");
+  } else {
+    const d = t.descs[L] || "";
+    body = d ? `<p class="snippet">${esc(d.length > 130 ? d.slice(0, 127).trimEnd() + "…" : d)}</p>` : "";
+  }
+  return `<button class="card" data-id="${esc(t.id)}">
+    <div class="card-head"><h2>${esc(title)}</h2><span class="tag ${t.cat}">${esc(catLabel(t.cat, T))}</span></div>
+    ${body}</button>`;
+}
+
+function detailView(T) {
+  const t = state.terms.find(x => x.id === state.id);
+  const L = state.lang;
+  const back = `<div class="crumbs"><button id="back">${esc(T.phrases)}</button> &nbsp;›&nbsp; ${t ? esc(t.terms[L] || t.terms.en) : ""}</div>`;
+  if (!t) return header(T) + langBar(T) + back + `<p class="empty">${esc(T.notFound)}</p>`;
+
+  const title = t.terms[L] || t.terms.en;
+  const desc = t.descs[L] || t.descs.en;
+  let html = header(T) + langBar(T) + `<div class="detail">${back}
+    <h1>${esc(title)}</h1><span class="tag ${t.cat}">${esc(catLabel(t.cat, T))}</span>
+    <div class="panel"><h3>${esc(T.techDesc)}</h3><p>${esc(desc)}</p></div>`;
+  if (t.ref) html += `<div class="panel"><h3>${esc(T.manualRef)}</h3>${t.ref.split("|").map(x => `<p>${esc(x.trim())}</p>`).join("")}</div>`;
+
+  if (L === "en") {
+    const rows = OTHER_LANGS.filter(l => t.terms[l]).map(l => `
+      <div class="lang-row">
+        <div class="ln">${flagImg(l)}${esc(LANGS[l].name === "Français" ? "French" : l === "es" ? "Spanish" : l === "de" ? "German" : "Italian")}</div>
+        <div class="t">${esc(t.terms[l])}</div>
+        <p class="d">${esc(t.descs[l])}</p>
+      </div>`).join("");
+    html += `<div class="panel"><h2>${esc(T.translations)}</h2>${rows}</div>`;
+  }
+  return html + `</div>`;
+}
+
+/* ---------- Events ---------- */
+function bindLang() {
+  document.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => {
+    state.lang = b.dataset.lang;
+    if (state.view === "detail") go("/term/" + encodeURIComponent(state.id), state.lang);
+    else { go("/", state.lang); }
+    readHash(); render();
+  });
+}
+function bindHome() {
+  bindLang();
+  document.getElementById("q").oninput = e => { state.q = e.target.value; render(); };
+  document.querySelectorAll("[data-cat]").forEach(b => b.onclick = () => { state.cat = b.dataset.cat; render(); });
+  document.querySelectorAll(".card").forEach(c => c.onclick = () => go("/term/" + encodeURIComponent(c.dataset.id), state.lang));
+}
+function bindDetail() {
+  bindLang();
+  const b = document.getElementById("back");
+  if (b) b.onclick = () => go("/", state.lang);
+}
+
+/* ---------- Start ---------- */
+async function init() {
+  readHash(); render();
+  try {
+    let csv = SAMPLE_CSV;
+    if (SHEET_CSV_URL) {
+      const res = await fetch(SHEET_CSV_URL, { cache: "no-store" });
+      if (!res.ok) throw new Error(res.status);
+      csv = await res.text();
+    }
+    state.terms = toTerms(csv);
+  } catch (e) { console.error(e); state.error = true; }
+  render();
+}
+init();
+</script>
+</body>
+</html>
